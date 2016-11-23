@@ -1,4 +1,5 @@
-<!-- 
+<!-- Для создания слайда добавить на страницу  <div class="slider"> с всем содержимым , скрипт JQuery, скрипт slider.js и файл css - slider.css
+вставляем вмсето <img> в <div class="slide slide-1"> нужный нам контекст
 -->
 <!DOCTYPE HTML>
 <html>
@@ -6,20 +7,25 @@
 	<meta http-equiv="content-type" content="text/html" />
 	<meta name="author" content="admin" />
     <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/modal-window.css" />
+    <link rel="stylesheet" href="css/slider.css" />
 	<title>Untitled 2</title>
 </head>
 
 <body>
 
-<div id="share-options"> <img src="images/photo2.png" /> </div>
-<div id="click-image">
-<a href="/#/" id="click">
-<img src="images/photo1.png"  />
-</a>
+<div class="slider">
+ <div class="slide-viewer">
+  <div class="slide-group">
+   <div class="slide slide-1"><img src="images/photo1.png"/></div>
+   <div class="slide slide-2"><img src="images/photo2.png"/></div>
+   <div class="slide slide-3"><img src="images/photo3.png"/></div>
+   <div class="slide slide-4"><img src="images/photo4.png"/></div>
+  </div>
+ </div>
 </div>
+<div class="slide-buttons"></div>
+
 <script src="js/jquery-3.1.1.min.js"></script>
-<script src="js/modal-init.js"></script>
-<script src="js/modal-window.js"></script>
+<script src="js/slider.js"></script>
 </body>
 </html>
