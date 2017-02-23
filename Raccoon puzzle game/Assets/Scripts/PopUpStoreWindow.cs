@@ -6,13 +6,14 @@ public class PopUpStoreWindow : MonoBehaviour
 
     public static PopUpStoreWindow instance;
 
-    public float speedOfScrollingButtons = -15f;
+    public float speedOfScrollingButtons;
 
     private RectTransform rectTransform;
 
     public GameObject options_off;
     public GameObject options_on;
-
+    public bool show;
+    
 
 
     private void Awake()
@@ -25,30 +26,45 @@ public class PopUpStoreWindow : MonoBehaviour
 
     void Update()
     {
-
+        if (show)
+        {
+            ShowPopUpWindow();
+        }
+        else if (!show && rectTransform.offsetMin.y <= (220 + Screen.height / 2.4))
+        {
+            
+            HidePopUpWindow();
+        }
     }
     public void ShowPopUpWindow()
     {
-        rectTransform.anchorMin = new Vector2(0.3f, 0.3f);
-        rectTransform.anchorMax = new Vector2(0.7f, 0.7f);
-        speedOfScrollingButtons = 0f;
-        rectTransform.offsetMin += new Vector2(rectTransform.offsetMin.x, speedOfScrollingButtons);
-        rectTransform.offsetMax += new Vector2(rectTransform.offsetMax.x, speedOfScrollingButtons);
-        options_off.SetActive(true);
-        options_on.SetActive(false);
+        if (rectTransform.offsetMin.y != 0)
+        {
+            
+            
+            rectTransform.anchorMin = new Vector2(0.3f, 0.3f);
+            rectTransform.anchorMax = new Vector2(0.7f, 0.7f);
+            speedOfScrollingButtons = -8f;
+            rectTransform.offsetMin += new Vector2(rectTransform.offsetMin.x, speedOfScrollingButtons);
+            rectTransform.offsetMax += new Vector2(rectTransform.offsetMax.x, speedOfScrollingButtons);
+            options_off.SetActive(true);
+            options_on.SetActive(false);
+        }
 
     }
     public void HidePopUpWindow()
     {
-
-
-        rectTransform.anchorMin = new Vector2(0.3f, 1f);
-        rectTransform.anchorMax = new Vector2(0.7f, 1f);
-        rectTransform.offsetMin += new Vector2(rectTransform.offsetMin.x, speedOfScrollingButtons);
-        rectTransform.offsetMax += new Vector2(rectTransform.offsetMax.x, speedOfScrollingButtons);
-        options_off.SetActive(false);
-        options_on.SetActive(true);
+        
+        if (rectTransform.offsetMin.y <= (220 + Screen.height / 2.4))
+        {
+            speedOfScrollingButtons = -8f;
+            rectTransform.offsetMin -= new Vector2(rectTransform.offsetMin.x, speedOfScrollingButtons);
+            rectTransform.offsetMax -= new Vector2(rectTransform.offsetMax.x, speedOfScrollingButtons);
+            options_off.SetActive(false);
+            options_on.SetActive(true);
+        }
     }
+   
 
 
 }

@@ -11,7 +11,7 @@ public class DragDropMatchingItem : MonoBehaviour
 		private Vector3 offset;//offset vector
 		public AudioClip youWin;
 		public AudioSource audioSource;//audio source
-		public Animator youWinAnimator;//you win animator
+		public GameObject winCanvas;//you win animator
 	 
 		void Start ()
 		{
@@ -32,11 +32,10 @@ public class DragDropMatchingItem : MonoBehaviour
 				if (matchDone) {
 						audioSource.Stop ();
 						//When the entire Match Done
-						if (youWinAnimator != null) {
+						
 								audioSource.clip = youWin;
 								audioSource.Play();//play win audio clip
-								youWinAnimator.SetBool ("isRunning", true);//show you win on the screen
-						}
+            Instantiate(winCanvas);
 				}
 
 				if (Input.GetMouseButtonDown (0)) { 

@@ -4,126 +4,87 @@ using System.Collections;
 //script for game brain, attached to GameManager gameObject
 
 //use constants for game states
-public enum GameState
-{
-    menu, inGame, gameOver, pauseMenu
-}
+
 
 public class GameManager : MonoBehaviour {
 
-    //разные типы канвасов для разных состояний игры,присваиваем в Unity
-   // public Canvas menuCanvas;      
-   // public Canvas inGameCanvas;
-   // public Canvas gameOverCanvas;
-    //public Canvas pauseMenuCanvas;
 
-   
+
+    
     public static GameManager instance; // use singleton for GameManager
-    public GameState currentGameState = GameState.menu; // for different game states
+
+    public static int currentState { get; private set; } // static option for states, used to go to the next scene
+
 
     private void Awake()
     {
         Screen.sleepTimeout = SleepTimeout.NeverSleep; // screen will not go out
-        instance = this;
+        if(instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
     }
     // menu of the game at start of the game
     private void Start()
     {
-        SetGameState(GameState.menu);
+        
     }
-    
-   public void ShowPopUpOptionsWindow()
+
+    private void Update()
     {
+        currentState = Application.loadedLevel;
+    }
 
-        PopUpOptionsWindows.instance.ShowPopUpWindow();
 
+    public void AnotherGamesButton()
+    {
+        Application.OpenURL("https://vk.com/yorlov89");
+    }
+    public void EstimateButton()
+    {
+        //Application.OpenURL("");
+        Debug.Log("Страница приложения");
+    }
+    // For PopUp Windows
+    public void ShowPopUpOptionsWindow()
+    {
+        PopUpOptionsWindows.instance.show = true;
     }
     public void HidePopUpOptionsWindow()
     {
-        PopUpOptionsWindows.instance.HidePopUpWindow();
+        PopUpOptionsWindows.instance.show = false;
     }
     public void ShowPopUpStoreWindow()
     {
-
-        PopUpStoreWindow.instance.ShowPopUpWindow();
-
+        PopUpStoreWindow.instance.show = true;
+        
     }
     public void HidePopUpStoreWindow()
     {
-        PopUpStoreWindow.instance.HidePopUpWindow();
-    }
-
-    // вызывается для начала игры
-    public void StartGame () {
-       
-        SetGameState(GameState.inGame); // use canvas ingame
-        Time.timeScale = 1f;
-
-    }
-	
-	// вызывается при смерти персонажа
-	public void GameOver () {
+        PopUpStoreWindow.instance.show = false;
         
-        Time.timeScale = 1f;
-        SetGameState(GameState.gameOver);
-	}
+    }
 
-    // вызывается для возврата в меню
-    public void BackToMenu()
-    {
-        
-        SetGameState(GameState.menu);
-    }
-    public void PauseGame()
-    {
-        Time.timeScale = 0f;
-        SetGameState(GameState.pauseMenu);
-    }
-    public void ResumeGame()
-    {
-        Time.timeScale = 1f;
-        SetGameState(GameState.inGame);
-    }
+   
     public void QuitGame()
     {
         Application.Quit();
     }
-
-    private void SetGameState(GameState newGameState)
+    
+    public void SetGameScene(string nameScene)
     {
-        if(newGameState == GameState.menu)
-        {
-            //setup unity scene for menu state
-            //menuCanvas.enabled      = true;
-           // inGameCanvas.enabled    = false;
-            //gameOverCanvas.enabled  = false;
-            //pauseMenuCanvas.enabled = false;
-        }
-        else if(newGameState == GameState.inGame)
-        {
-            //setup unity scene for InGame state
-            //menuCanvas.enabled      = false;
-            //inGameCanvas.enabled    = true;
-           // gameOverCanvas.enabled  = false;
-           // pauseMenuCanvas.enabled = false;
-        }
-        else if(newGameState == GameState.gameOver)
-        {
-            //setup unity scene for GameOver state
-           // menuCanvas.enabled      = false;
-           // inGameCanvas.enabled    = false;
-           // gameOverCanvas.enabled  = true;
-           // pauseMenuCanvas.enabled = false;
-        }
-        else if (newGameState == GameState.pauseMenu)
-        {
-            //setup unity scene for Pause state
-            //menuCanvas.enabled      = false;
-           // inGameCanvas.enabled    = false;
-          //  gameOverCanvas.enabled  = false;
-           // pauseMenuCanvas.enabled = true;
-        }
-
-        currentGameState = newGameState;
+        Application.LoadLevel(nameScene);
     }
+
+
+    public void GoToNextScene()
+    {
+        Application.LoadLevel(currentState + 1);
+    }
+   
 }
